@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAddress, FindOffices } from "../../reducers/address";
+import { Link } from "react-router-dom";
 import PlacesAutocomplete, {
 	geocodeByAddress,
 	geocodeByPlaceId,
 	getLatLng,
 } from "react-places-autocomplete";
+import { Table, Button } from "reactstrap";
 const KEY = "AIzaSyBz6nwfaz00TcGhrBTs69sZdNgd0JPVP3g";
 function Home(props) {
 	const dispatch = useDispatch();
 	const userAddress = useSelector((state) => state.address.userAddress);
 	const offices = useSelector((state) => state.address.offices);
 	console.log("gggg", offices);
+	const [showTable, setShowTable] = useState(false);
 	const [lat, setLat] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [address, setAddress] = useState("");
@@ -38,6 +41,8 @@ function Home(props) {
 	const onFindOffice = (e) => {
 		e.preventDefault();
 		dispatch(FindOffices({ address: userAddress, key: KEY }));
+		setShowTable(true);
+		setAddress("");
 	};
 
 	return (
@@ -71,9 +76,43 @@ function Home(props) {
 			</PlacesAutocomplete>
 			<button onClick={onFindOffice}>Search</button>
 			<button onClick={onFindMe}>Find me</button>
-			{offices?.map((office) => (
-				<div>{office.name}</div>
-			))}
+
+			{offices && showTable && (
+				<Table hover>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Offfice Titile</th>
+							<th>Role</th>
+							<th>Level</th>
+							<th></th>
+						</tr>
+					</thead>
+					{offices?.map((office, index) => (
+						<tbody key={index}>
+							<tr>
+								<th scope="row">1</th>
+								<td>{office.name}</td>
+								<td>
+									{office.roles?.map((role) => (
+										<li>{role}</li>
+									))}
+								</td>
+								<td>
+									{office.levels?.map((level) => (
+										<li>{level}</li>
+									))}
+								</td>
+								<td>
+									<Link to="/form">
+										<Button>Run for</Button>
+									</Link>
+								</td>
+							</tr>
+						</tbody>
+					))}
+				</Table>
+			)}
 		</div>
 	);
 }

@@ -22,7 +22,7 @@ const persistConfig = {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const reducer = combineReducers({
-	// authentication,
+	authentication,
 	formManagement,
 	address,
 	payment,

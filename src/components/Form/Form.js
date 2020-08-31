@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { convertPrice } from "../../utils";
 import Payment from "../Payment/Payment";
 import { CreateForm } from "../../reducers/formManagement";
 import { checkout } from "../../reducers/payment.js";
@@ -12,6 +13,7 @@ function Form() {
 	const dispatch = useDispatch();
 	const userAddress = useSelector((state) => state.address.userAddress);
 	console.log("nnn", userAddress);
+
 	const [form, setForm] = useState({
 		name: "",
 		officeTitle: "",
@@ -24,13 +26,6 @@ function Form() {
 		setShowPaypal(true);
 	};
 
-	const parties = {
-		Democratic: 15,
-		Republican: 15,
-		Libertarian: 5,
-		Others: 10,
-	};
-
 	const onChangeFormInput = (e) => {
 		e.persist();
 		const { name, value } = e.target;
@@ -41,10 +36,12 @@ function Form() {
 		dispatch(CreateForm(form));
 	};
 
+	const paymentHandler = () => {};
+
 	return (
 		<>
 			{showPaypal ? (
-				<Payment party={parties.Libertarian} />
+				<Payment amount={200} currency={"USD"} onSuccess={paymentHandler} />
 			) : (
 				<div>
 					<button onClick={showPaypalButtons}>Pay to get the form</button>
