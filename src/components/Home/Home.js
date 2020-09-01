@@ -8,6 +8,7 @@ import PlacesAutocomplete, {
 	getLatLng,
 } from "react-places-autocomplete";
 import { Table, Button } from "reactstrap";
+import RunforButton from "./RunforButton";
 const KEY = "AIzaSyBz6nwfaz00TcGhrBTs69sZdNgd0JPVP3g";
 function Home(props) {
 	const dispatch = useDispatch();
@@ -15,9 +16,10 @@ function Home(props) {
 	const offices = useSelector((state) => state.address.offices);
 	console.log("gggg", offices);
 	const [showTable, setShowTable] = useState(false);
+	const [address, setAddress] = useState("");
+
 	const [lat, setLat] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
-	const [address, setAddress] = useState("");
 	const [coordinates, setCoordinates] = useState({
 		lat: null,
 		lng: null,
@@ -82,7 +84,7 @@ function Home(props) {
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Offfice Titile</th>
+							<th>Offfice Title</th>
 							<th>Role</th>
 							<th>Level</th>
 							<th></th>
@@ -91,7 +93,7 @@ function Home(props) {
 					{offices?.map((office, index) => (
 						<tbody key={index}>
 							<tr>
-								<th scope="row">1</th>
+								<th scope="row">{index + 1}</th>
 								<td>{office.name}</td>
 								<td>
 									{office.roles?.map((role) => (
@@ -104,9 +106,7 @@ function Home(props) {
 									))}
 								</td>
 								<td>
-									<Link to="/form">
-										<Button>Run for</Button>
-									</Link>
+									<RunforButton officeTitle={office.name} />
 								</td>
 							</tr>
 						</tbody>

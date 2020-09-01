@@ -11,7 +11,9 @@ export const createForm = (form) => (dispatch) => {
 };
 
 export const CreateForm = (params) => async (dispatch) => {
-	debugger;
+	console.log("pareammm", params);
+	const result = await axios.post("/form", { ...params });
+	console.log("pppppp", result);
 
 	dispatch(createForm());
 };

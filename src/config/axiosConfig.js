@@ -12,15 +12,16 @@ const api = create({
 	timeout: 60000,
 });
 
-// api.interceptors.request.use((config) => {
-// 	const state = store.getState();
-// 	console.log("state", state);
-// 	const token = state.authentication.token;
-// 	return {
-// 		...config,
-// 		headers: { ...config.headers, Authorization: `Bearer ${token}` },
-// 	};
-// });
+api.interceptors.request.use((config) => {
+	const state = store.getState();
+	console.log("state", state);
+	const token = state.authentication.token;
+	console.log("ghghghghhghghg", token);
+	return {
+		...config,
+		headers: { ...config.headers, Authorization: `Bearer ${token}` },
+	};
+});
 
 // Add a response interceptor
 // api.axiosInstance.interceptors.response.use((response) => response, (error) => {

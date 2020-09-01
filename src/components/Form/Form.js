@@ -7,18 +7,22 @@ import { checkout } from "../../reducers/payment.js";
 import { Link } from "react-router-dom";
 import { saveAs } from "file-saver";
 import axios from "../../config/axiosConfig";
+import { Table, Button, Modal } from "reactstrap";
 import "./Form.css";
 
-function Form() {
+function Form({ showForm, officeTitle }) {
 	const dispatch = useDispatch();
+
 	const userAddress = useSelector((state) => state.address.userAddress);
-	console.log("nnn", userAddress);
+	const userId = useSelector((state) => state.authentication.user.id);
+	console.log("nnn", officeTitle);
 
 	const [form, setForm] = useState({
-		name: "",
-		officeTitle: "",
-		disctric: "",
-		address: "",
+		userId,
+		candidatename: "",
+		officeTitle: officeTitle,
+		disctrict: "statewide",
+		address: userAddress,
 		occupation: "",
 	});
 	const [showPaypal, setShowPaypal] = useState(false);
@@ -31,7 +35,7 @@ function Form() {
 		const { name, value } = e.target;
 		setForm((prev) => ({ ...prev, [name]: e.target.value }));
 	};
-	const createAndDownloadPDF = (e) => {
+	const onCreateForm = (e) => {
 		e.preventDefault();
 		dispatch(CreateForm(form));
 	};
@@ -39,55 +43,55 @@ function Form() {
 	const paymentHandler = () => {};
 
 	return (
-		<>
-			{showPaypal ? (
+		<Modal isOpen={showForm}>
+			{showPaypal && (
 				<Payment amount={200} currency={"USD"} onSuccess={paymentHandler} />
-			) : (
-				<div>
-					<button onClick={showPaypalButtons}>Pay to get the form</button>
-
-					<form>
-						<input
-							type="text"
-							value={form.officeTitle}
-							name="officeTitle"
-							placeholder="Offices"
-							onChange={onChangeFormInput}
-						/>
-						<input
-							type="text"
-							value={form.name}
-							name="name"
-							placeholder="Your Name"
-							onChange={onChangeFormInput}
-						/>
-						<input
-							type="text"
-							value={form.disctric}
-							name="disctric"
-							placeholder="Disctric"
-							onChange={onChangeFormInput}
-						/>
-						<input
-							type="text"
-							value={userAddress}
-							name="address"
-							placeholder="place of residence"
-							onChange={onChangeFormInput}
-						/>
-						<input
-							type="text"
-							value={form.occupation}
-							name="occupation"
-							placeholder="Occupation"
-							onChange={onChangeFormInput}
-						/>
-						<button>View</button>
-						<button onClick={createAndDownloadPDF}> Download form</button>
-					</form>
-				</div>
 			)}
-		</>
+
+			<div>
+				<button onClick={showPaypalButtons}>Pay to get the form</button>
+
+				<form>
+					<input
+						type="text"
+						value={form.officeTitle}
+						name="officeTitle"
+						placeholder="Offices"
+						onChange={onChangeFormInput}
+					/>
+					<input
+						type="text"
+						value={form.candidatename}
+						name="candidatename"
+						placeholder="Your Name"
+						onChange={onChangeFormInput}
+					/>
+					<input
+						type="text"
+						value={form.disctrict}
+						name="disctrict"
+						placeholder="Disctrict"
+						onChange={onChangeFormInput}
+					/>
+					<input
+						type="text"
+						value={form.address}
+						name="address"
+						placeholder="place of residence"
+						onChange={onChangeFormInput}
+					/>
+					<input
+						type="text"
+						value={form.occupation}
+						name="occupation"
+						placeholder="Occupation"
+						onChange={onChangeFormInput}
+					/>
+					<button onClick={onCreateForm}>View</button>
+					{/* <button onClick={createAndDownloadPDF}> Download form</button> */}
+				</form>
+			</div>
+		</Modal>
 	);
 }
 
