@@ -13,29 +13,13 @@ import { persistStore, persistReducer } from "redux-persist";
 export const store = configureStore();
 let persistor = persistStore(store);
 
-const onRedirectCallback = (appState) => {
-	history.push(
-		appState && appState.targetUrl
-			? appState.targetUrl
-			: window.location.pathname
-	);
-};
-
 ReactDOM.render(
-	<Auth0Provider
-		domain={config.domain}
-		client_id={config.clientId}
-		redirect_uri={window.location.origin}
-		audience={config.audience}
-		onRedirectCallback={onRedirectCallback}
-	>
-		<React.StrictMode>
-			<Provider store={store}>
-				<PersistGate loading={null} persistor={persistor}>
-					<App />
-				</PersistGate>
-			</Provider>
-		</React.StrictMode>
-	</Auth0Provider>,
+	<React.StrictMode>
+		<Provider store={store}>
+			<PersistGate loading={null} persistor={persistor}>
+				<App />
+			</PersistGate>
+		</Provider>
+	</React.StrictMode>,
 	document.getElementById("root")
 );
