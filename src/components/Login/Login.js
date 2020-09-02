@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import LoginWithGoogle from "./LoginWithGoogle";
 import { login } from "../../reducers/authentication";
 import "./Login.css";
 
