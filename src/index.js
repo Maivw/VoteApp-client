@@ -7,17 +7,26 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore, persistReducer } from "redux-persist";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 export const store = configureStore();
 let persistor = persistStore(store);
 
 ReactDOM.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<PersistGate loading={null} persistor={persistor}>
-				<App />
-			</PersistGate>
-		</Provider>
-	</React.StrictMode>,
+	<Auth0Provider
+		domain="maivw.us.auth0.com"
+		clientId="q03HQ27c80pCtCXoYpBGKSftq2yWx4qX"
+		redirectUri={window.location.origin}
+		audience="https://voteApp/api"
+		scope="read:current_user update:current_user_metadata"
+	>
+		<React.StrictMode>
+			<Provider store={store}>
+				<PersistGate loading={null} persistor={persistor}>
+					<App />
+				</PersistGate>
+			</Provider>
+		</React.StrictMode>
+	</Auth0Provider>,
 	document.getElementById("root")
 );

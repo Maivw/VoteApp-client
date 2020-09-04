@@ -1,22 +1,14 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { logout } from "../../reducers/authentication";
-import { Button } from "reactstrap";
+import { useAuth0 } from "@auth0/auth0-react";
 
-function Logout() {
-	let history = useHistory();
-	const dispatch = useDispatch();
-	const onLogout = (e) => {
-		e.preventDefault();
-		dispatch(logout());
-		history.push("/login");
-	};
+const LogoutButton = () => {
+	const { logout } = useAuth0();
+
 	return (
-		<div>
-			<Button onClick={onLogout} /> Logout
-		</div>
+		<button onClick={() => logout({ returnTo: window.location.origin })}>
+			Log Out
+		</button>
 	);
-}
+};
 
-export default Logout;
+export default LogoutButton;

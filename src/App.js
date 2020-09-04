@@ -5,16 +5,17 @@ import Home from "./components/Home/Home";
 import Form from "./components/Form/Form";
 import Logout from "./components/Logout/Logout";
 import Signup from "./components/Signup/Signup";
+import Container from "./components/Container/index";
 
 function App() {
 	return (
 		<>
 			<BrowserRouter>
 				<Switch>
+					<Route exact path="/" component={Container} />
 					<Route exact path="/login" component={Login} />
 					<Route exact path="/logout" component={Logout} />
 					<Route exact path="/signup" component={Signup} />
-					<Route exact path="/" component={Home} />
 					<Route exact path="/form" component={Form} />
 				</Switch>
 			</BrowserRouter>
