@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 import { getAddress, FindOffices } from "../../reducers/address";
-import { Link } from "react-router-dom";
+import Logout from "../Logout/Logout";
+import PdfDemo from "./PdfDemo";
 import PlacesAutocomplete, {
 	geocodeByAddress,
 	geocodeByPlaceId,
@@ -10,13 +12,14 @@ import PlacesAutocomplete, {
 import { Table, Button } from "reactstrap";
 import RunforButton from "./RunforButton";
 const KEY = "AIzaSyBz6nwfaz00TcGhrBTs69sZdNgd0JPVP3g";
+
 function Home(props) {
 	const dispatch = useDispatch();
 	const userAddress = useSelector((state) => state.address.userAddress);
 	const offices = useSelector((state) => state.address.offices);
-	console.log("gggg", offices);
 	const [showTable, setShowTable] = useState(false);
 	const [address, setAddress] = useState("");
+	const user = useSelector((state) => state.authentication.user);
 
 	const [lat, setLat] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
@@ -49,6 +52,8 @@ function Home(props) {
 
 	return (
 		<div>
+			<Logout />
+			<PdfDemo />
 			<p>Enter your address to find put the offices you can run for</p>
 			<PlacesAutocomplete
 				value={address}

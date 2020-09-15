@@ -1,34 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { convertPrice } from "../../utils";
-import Payment from "../Payment/Payment";
+import { useAuth0 } from "@auth0/auth0-react";
 import { CreateForm, GetForm } from "../../reducers/formManagement";
-import { checkout } from "../../reducers/payment.js";
-import { Link } from "react-router-dom";
-import { saveAs } from "file-saver";
-import axios from "../../config/axiosConfig";
-import { Table, Button, Modal } from "reactstrap";
+import { Redirect } from "react-router-dom";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "./Form.css";
+import FormPDF from "./FormPDF";
 
-function Form({ showForm, officeTitle }) {
+function Form(props) {
+	const { officeTitle, isOpen } = props;
+	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 	const dispatch = useDispatch();
 	const userAddress = useSelector((state) => state.address.userAddress);
 	const userId = useSelector((state) => state.authentication.user.id);
 	const submittedForm = useSelector((state) => state.formManagement.form);
-	console.log("nnn", submittedForm);
 
 	const [form, setForm] = useState({
 		userId,
 		candidatename: "",
-		officeTitle: officeTitle,
+		officeTitle,
 		disctrict: "statewide",
 		address: userAddress,
 		occupation: "",
 	});
-	const [showPaypal, setShowPaypal] = useState(false);
-	const showPaypalButtons = () => {
-		setShowPaypal(true);
-	};
 
 	const onChangeFormInput = (e) => {
 		e.persist();
@@ -38,24 +32,16 @@ function Form({ showForm, officeTitle }) {
 	const onCreateForm = (e) => {
 		e.preventDefault();
 		dispatch(CreateForm(form));
+		alert("Submit successfully");
 	};
 
-	const onViewForm = (e) => {
-		e.preventDefault();
-		dispatch(GetForm({ formId: submittedForm.id }));
+	const sendToRunButton = () => {
+		props.toggleModalForm(!isOpen);
 	};
-
-	const paymentHandler = () => {};
 
 	return (
-		<Modal isOpen={showForm}>
-			{showPaypal && (
-				<Payment amount={200} currency={"USD"} onSuccess={paymentHandler} />
-			)}
-
-			<div>
-				<button onClick={showPaypalButtons}>Pay to get the form</button>
-
+		<>
+			<Modal isOpen={isOpen}>
 				<form>
 					<input
 						type="text"
@@ -93,10 +79,15 @@ function Form({ showForm, officeTitle }) {
 						onChange={onChangeFormInput}
 					/>
 					<button onClick={onCreateForm}>submit</button>
-					<button onClick={onViewForm}> View</button>
+					<FormPDF />
 				</form>
-			</div>
-		</Modal>
+				<ModalFooter>
+					<Button color="secondary" onClick={sendToRunButton}>
+						Cancel
+					</Button>
+				</ModalFooter>
+			</Modal>
+		</>
 	);
 }
 

@@ -1,27 +1,26 @@
 import axios from "../config/axiosConfig";
-import { saveAs } from "file-saver";
 const PAYMENT = "PAYMENT";
 
-export const payFee = (bill) => (dispatch) => {
+export const makePayment = (payment) => (dispatch) => {
 	dispatch({
 		type: PAYMENT,
-		bill,
+		payment,
 	});
 };
 
 export const checkout = (params) => async (dispatch) => {
-	const result = await axios.post("/payment/pay", { params });
-	console.log("PPPPP", result);
+	const result = await axios.post("/payment", { ...params });
+	dispatch(makePayment(result.data.payment));
 };
 
-const initialState = { bill: {} };
+const initialState = { payment: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case PAYMENT: {
 			return {
 				...state,
-				bill: action.bill,
+				payment: action.payment,
 			};
 		}
 

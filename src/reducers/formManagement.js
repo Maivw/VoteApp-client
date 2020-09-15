@@ -2,6 +2,14 @@ import axios from "../config/axiosConfig";
 import { saveAs } from "file-saver";
 const CREATE_FORM = "CREATE_FORM";
 const GET_FORM = "GET_FORM";
+const GET_EXAMPLE_FORM = "GET_EXAMPLE_FORM";
+
+export const getExampleForm = (exampleForm) => (dispatch) => {
+	dispatch({
+		type: GET_EXAMPLE_FORM,
+		exampleForm,
+	});
+};
 
 export const createForm = (form) => (dispatch) => {
 	dispatch({
@@ -17,6 +25,14 @@ export const getForm = (formFound) => (dispatch) => {
 	});
 };
 
+export const fetchExampleForm = (params) => async (dispatch) => {
+	const result = await axios.get(
+		"/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf",
+		{ ...params }
+	);
+
+	dispatch(getExampleForm(result.data));
+};
 export const CreateForm = (params) => async (dispatch) => {
 	const result = await axios.post("/form", { ...params });
 
@@ -24,9 +40,7 @@ export const CreateForm = (params) => async (dispatch) => {
 };
 
 export const GetForm = (params) => async (dispatch) => {
-	console.log("pareammm", params);
 	const result = await axios.get(`/form/${params.formId}`, { ...params });
-	console.log("pppppp", result.data.form);
 
 	dispatch(getForm(result.data.form));
 };
@@ -46,6 +60,13 @@ export default function reducer(state = initialState, action) {
 			return {
 				...state,
 				formFound: action.formFound,
+			};
+		}
+
+		case GET_EXAMPLE_FORM: {
+			return {
+				...state,
+				exampleForm: action.exampleForm,
 			};
 		}
 

@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
+import { setUser } from "../../reducers/authentication";
 import Home from "../Home/Home";
+import Login from "../Login/Login";
 
 export default function Container() {
+	const dispatch = useDispatch();
+	//const user = useSelector((state) => state.authentication.user);
+	// const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
-	console.log("user", user);
-
 	useEffect(() => {
-		console.log("aaa ", user);
 		const pathUserDetail = async () => {
 			const domain = "maivw.us.auth0.com";
 
 			try {
-				console.log("mmm");
 				const token = await getAccessTokenSilently({
 					audience: `https://voteApp/api`,
 					scope: "read:current_user",
 				});
-				console.log("bbb", user);
 
 				const res = await fetch(`http://localhost:8080/users`, {
 					method: "PATCH",
@@ -34,7 +35,10 @@ export default function Container() {
 				});
 
 				const result = await res.json();
-				console.log("ccc", result);
+				console.log("result", result.user);
+				// const id = result.user.id;
+				// user = { ...user, id };
+				dispatch(setUser({ ...user, id: result.user.id }));
 			} catch (e) {
 				console.log(e.message);
 			}
@@ -43,5 +47,13 @@ export default function Container() {
 		user && pathUserDetail();
 	}, [user]);
 
-	return <div>hello</div>;
+	return (
+		<>
+			{
+				<div>
+					<Home />
+				</div>
+			}
+		</>
+	);
 }
