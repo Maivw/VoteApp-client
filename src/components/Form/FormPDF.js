@@ -25,18 +25,48 @@ export default function FormPDF() {
 		const { width, height } = firstPage.getSize();
 
 		// Draw a string of text diagonally across the first page
-		firstPage.drawText(
-			`${submittedForm.officeTitle} \n ${submittedForm.candidatename} \n ${submittedForm.district} \n ${submittedForm.address} \n ${submittedForm.occupation}`,
-			{
-				x: 300,
-				y: height / 2 + 300,
-				size: 25,
-				font: helveticaFont,
-				color: rgb(0.5, 0.1, 0.1),
-				maxWidth: 20,
-				// lineHeight
-			}
-		);
+		firstPage.drawText(`${submittedForm.officeTitle} `, {
+			x: 20,
+			y: height / 2 + 245,
+			size: 10,
+			font: helveticaFont,
+			color: rgb(0, 0, 0, 1),
+			maxWidth: 100,
+		});
+
+		firstPage.drawText(` ${submittedForm.disctrict}`, {
+			x: 120,
+			y: height / 2 + 245,
+			size: 10,
+			font: helveticaFont,
+			color: rgb(0, 0, 0, 1),
+			maxWidth: 100,
+		});
+		firstPage.drawText(`${submittedForm.candidatename} `, {
+			x: 200,
+			y: height / 2 + 245,
+			size: 10,
+			font: helveticaFont,
+			color: rgb(0, 0, 0, 1),
+			maxWidth: 100,
+		});
+
+		firstPage.drawText(` ${submittedForm.address} `, {
+			x: 300,
+			y: height / 2 + 245,
+			size: 10,
+			font: helveticaFont,
+			color: rgb(0, 0, 0, 1),
+			maxWidth: 200,
+		});
+		firstPage.drawText(` ${submittedForm.occupation}`, {
+			x: 520,
+			y: height / 2 + 245,
+			size: 10,
+			font: helveticaFont,
+			color: rgb(0, 0, 0, 1),
+			maxWidth: 200,
+		});
 
 		// Serialize the PDFDocument to bytes (a Uint8Array)
 		// const pdfBytes = await pdfDoc.save();

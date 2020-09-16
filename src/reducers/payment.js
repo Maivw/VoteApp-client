@@ -13,7 +13,7 @@ export const checkout = (params) => async (dispatch) => {
 	dispatch(makePayment(result.data.payment));
 };
 
-const initialState = { payment: {} };
+const initialState = { payment: {}, alredyPaid: false };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
@@ -21,6 +21,7 @@ export default function reducer(state = initialState, action) {
 			return {
 				...state,
 				payment: action.payment,
+				alredyPaid: true,
 			};
 		}
 

@@ -8,11 +8,15 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Payment from "../Payment/Payment";
 import FormExample from "../Form/FormExample";
 import Form from "../Form/Form";
+import FormEdit from "../Form/FormEdit";
 
-export default function RunforButton({ officeTitle }) {
+export default function RunforButton({ offices }) {
 	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 	const dispatch = useDispatch();
 	const userId = useSelector((state) => state.authentication.user.id);
+	const alreadyPaid = useSelector((state) => state.payment.alredyPaid);
+	console.log("alreadyPaid", alreadyPaid);
+	console.log("offices", offices);
 	const [isPaid, setIsPaid] = useState(false);
 	const [modal, setModal] = useState(false);
 	const [modalForm, setModalForm] = useState(false);
@@ -37,9 +41,6 @@ export default function RunforButton({ officeTitle }) {
 		setModalForm(true);
 	};
 	const toggle = () => setModal(!modal);
-	const closeModalForm = () => {
-		setModalForm(false);
-	};
 
 	const onRunfor = () => {
 		setModal(true);
@@ -50,18 +51,18 @@ export default function RunforButton({ officeTitle }) {
 	}
 	return (
 		<div>
-			{isPaid ? (
-				<Form
-					officeTitle={officeTitle}
-					isOpen={modalForm}
-					closeModalForm={closeModalForm}
-				/>
+			{isPaid || alreadyPaid ? (
+				<>
+					<Redirect to="/form" />
+					<FormEdit />
+				</>
 			) : (
 				<div>
 					<Button onClick={onRunfor}>Run</Button>
 					<Modal isOpen={modal} toggle={toggle}>
 						<ModalHeader toggle={toggle}>For example</ModalHeader>
 						<ModalBody>
+							<FormExample />
 							{showPaypal && (
 								<Payment
 									amount={200}
@@ -69,7 +70,6 @@ export default function RunforButton({ officeTitle }) {
 									onSuccess={paymentHandler}
 								/>
 							)}
-							<FormExample />
 						</ModalBody>
 						<ModalFooter>
 							<Button color="primary" onClick={showPaypalButtons}>

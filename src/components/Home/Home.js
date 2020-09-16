@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { getAddress, FindOffices } from "../../reducers/address";
 import Logout from "../Logout/Logout";
-import PdfDemo from "./PdfDemo";
+import TableOffices from "./TableOffices";
+import RunforButton from "./RunforButton";
+
 import PlacesAutocomplete, {
 	geocodeByAddress,
 	geocodeByPlaceId,
 	getLatLng,
 } from "react-places-autocomplete";
-import { Table, Button } from "reactstrap";
-import RunforButton from "./RunforButton";
+
 const KEY = "AIzaSyBz6nwfaz00TcGhrBTs69sZdNgd0JPVP3g";
 
 function Home(props) {
@@ -53,7 +54,6 @@ function Home(props) {
 	return (
 		<div>
 			<Logout />
-			<PdfDemo />
 			<p>Enter your address to find put the offices you can run for</p>
 			<PlacesAutocomplete
 				value={address}
@@ -83,41 +83,7 @@ function Home(props) {
 			</PlacesAutocomplete>
 			<button onClick={onFindOffice}>Search</button>
 			<button onClick={onFindMe}>Find me</button>
-
-			{offices && showTable && (
-				<Table hover>
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Offfice Title</th>
-							<th>Role</th>
-							<th>Level</th>
-							<th></th>
-						</tr>
-					</thead>
-					{offices?.map((office, index) => (
-						<tbody key={index}>
-							<tr>
-								<th scope="row">{index + 1}</th>
-								<td>{office.name}</td>
-								<td>
-									{office.roles?.map((role) => (
-										<li>{role}</li>
-									))}
-								</td>
-								<td>
-									{office.levels?.map((level) => (
-										<li>{level}</li>
-									))}
-								</td>
-								<td>
-									<RunforButton officeTitle={office.name} />
-								</td>
-							</tr>
-						</tbody>
-					))}
-				</Table>
-			)}
+			<TableOffices offices={offices} showTable={showTable} />
 		</div>
 	);
 }
