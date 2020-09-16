@@ -11,20 +11,12 @@ export default function FormPDF() {
 		"http://localhost:8080/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
 	const modifyPdf = async () => {
 		const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
-		// Load a PDFDocument from the existing PDF bytes
 		const pdfDoc = await PDFDocument.load(existingPdfBytes);
-
-		// Embed the Helvetica font
 		const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-
-		// Get the first page of the document
 		const pages = pdfDoc.getPages();
 		const firstPage = pages[0];
-
-		// Get the width and height of the first page
 		const { width, height } = firstPage.getSize();
 
-		// Draw a string of text diagonally across the first page
 		firstPage.drawText(`${submittedForm.officeTitle} `, {
 			x: 20,
 			y: height / 2 + 245,
@@ -32,6 +24,7 @@ export default function FormPDF() {
 			font: helveticaFont,
 			color: rgb(0, 0, 0, 1),
 			maxWidth: 100,
+			lineHeight: height / 2 - 490,
 		});
 
 		firstPage.drawText(` ${submittedForm.disctrict}`, {
@@ -58,6 +51,7 @@ export default function FormPDF() {
 			font: helveticaFont,
 			color: rgb(0, 0, 0, 1),
 			maxWidth: 200,
+			lineHeight: height / 2 - 490,
 		});
 		firstPage.drawText(` ${submittedForm.occupation}`, {
 			x: 520,
