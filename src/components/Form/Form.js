@@ -7,17 +7,19 @@ import "./Form.css";
 import FormPDF from "./FormPDF";
 
 function Form(props) {
-	const { officeTitle, isOpen } = props;
+	const { isOpen } = props;
 	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 	const dispatch = useDispatch();
 	const userAddress = useSelector((state) => state.address.userAddress);
+	const offices = useSelector((state) => state.address.offices);
 	const userId = useSelector((state) => state.authentication.user.id);
 	const submittedForm = useSelector((state) => state.formManagement.form);
+	console.log("00000", offices);
 
 	const [form, setForm] = useState({
 		userId,
 		candidatename: "",
-		officeTitle,
+		officeTitle: "",
 		disctrict: "statewide",
 		address: userAddress,
 		occupation: "",
@@ -37,13 +39,20 @@ function Form(props) {
 	return (
 		<>
 			<form>
-				<input
+				<label forHtml="officeTitle">Office Title</label>
+
+				<select name="officeTitle" onChange={onChangeFormInput}>
+					{offices?.map((office) => {
+						return <option value={office.name}>{office.name}</option>;
+					})}
+				</select>
+				{/* <input
 					type="text"
 					value={form.officeTitle}
 					name="officeTitle"
 					placeholder="Offices"
 					onChange={onChangeFormInput}
-				/>
+				/> */}
 				<input
 					type="text"
 					value={form.candidatename}

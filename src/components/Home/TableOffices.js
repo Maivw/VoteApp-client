@@ -33,7 +33,6 @@ function TableOffices({ offices, showTable }) {
 										<li>{level}</li>
 									))}
 								</td>
-								<td>{/* <RunforButton officeTitle={office.name} /> */}</td>
 							</tr>
 						</tbody>
 					))}

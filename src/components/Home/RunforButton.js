@@ -5,6 +5,7 @@ import { checkout, chekcout } from "../../reducers/payment";
 import { convertPrice } from "../../utils";
 import { Link, Redirect } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { FormGroup, Label, Input, FormText } from "reactstrap";
 import Payment from "../Payment/Payment";
 import FormExample from "../Form/FormExample";
 import Form from "../Form/Form";
@@ -21,6 +22,7 @@ export default function RunforButton({ offices }) {
 	const [modal, setModal] = useState(false);
 	const [modalForm, setModalForm] = useState(false);
 	const [showPaypal, setShowPaypal] = useState(false);
+	const [fee, setFee] = useState(0);
 	const showPaypalButtons = () => {
 		setShowPaypal(true);
 	};
@@ -45,6 +47,22 @@ export default function RunforButton({ offices }) {
 	const onRunfor = () => {
 		setModal(true);
 	};
+	const onGetAmount = () => {
+		let amount = convertPrice("Libertarian");
+		setFee(amount);
+	};
+	const onGetAmountDemocratic = () => {
+		let amount = convertPrice("Democratic");
+		setFee(amount);
+	};
+	const onGetAmountRepublican = () => {
+		let amount = convertPrice("Republican");
+		setFee(amount);
+	};
+	const onGetAmountOthers = () => {
+		let amount = convertPrice("Others");
+		setFee(amount);
+	};
 
 	if (!isAuthenticated) {
 		return <Redirect to="/login" />;
@@ -65,15 +83,63 @@ export default function RunforButton({ offices }) {
 							<FormExample />
 							{showPaypal && (
 								<Payment
-									amount={200}
+									amount={fee}
 									currency={"USD"}
 									onSuccess={paymentHandler}
 								/>
 							)}
+							<FormGroup tag="party">
+								<legend>Are you ....</legend>
+								<FormGroup check>
+									<Label check>
+										<Input
+											type="radio"
+											name="radio1"
+											id="Libertarian"
+											value="Libertarian"
+											onClick={onGetAmount}
+										/>
+										Libertarian
+									</Label>
+								</FormGroup>
+								<FormGroup check>
+									<Label>
+										<Input
+											type="radio"
+											name="radio1"
+											value="Democratic"
+											onClick={onGetAmountDemocratic}
+										/>
+										Democratic
+									</Label>
+								</FormGroup>
+								<FormGroup check>
+									<Label>
+										<Input
+											type="radio"
+											name="radio1"
+											value="Republican"
+											onClick={onGetAmountRepublican}
+										/>
+										Republican
+									</Label>
+								</FormGroup>
+								<FormGroup check>
+									<Label>
+										<Input
+											type="radio"
+											name="radio1"
+											value="Other"
+											onClick={onGetAmountOthers}
+										/>
+										Others
+									</Label>
+								</FormGroup>
+							</FormGroup>
 						</ModalBody>
 						<ModalFooter>
 							<Button color="primary" onClick={showPaypalButtons}>
-								Pay to get the for
+								Pay to get the form
 							</Button>
 							<Button color="secondary" onClick={toggle}>
 								Cancel

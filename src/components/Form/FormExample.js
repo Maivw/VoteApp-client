@@ -20,7 +20,13 @@ function FormExample() {
 	};
 
 	return (
-		<div>
+		<div
+			style={{
+				overflow: "scroll",
+				border: "1px dotted black",
+				height: 600,
+			}}
+		>
 			<Document
 				file={file}
 				onLoadSuccess={onDocumentLoadSuccess}
