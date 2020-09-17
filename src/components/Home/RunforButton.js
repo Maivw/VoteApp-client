@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import { checkout, chekcout } from "../../reducers/payment";
+import { checkout, checkAlreadyPaid } from "../../reducers/payment";
 import { convertPrice } from "../../utils";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { FormGroup, Label, Input, FormText } from "reactstrap";
+import { FormGroup, Label, Input } from "reactstrap";
 import Payment from "../Payment/Payment";
 import FormExample from "../Form/FormExample";
 import Form from "../Form/Form";
-import FormEdit from "../Form/FormEdit";
 
-export default function RunforButton({ offices }) {
-	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+export default function RunforModal(props) {
 	const dispatch = useDispatch();
 	const userId = useSelector((state) => state.authentication.user.id);
-	const alreadyPaid = useSelector((state) => state.payment.alredyPaid);
-	console.log("alreadyPaid", alreadyPaid);
-	console.log("offices", offices);
-	const [isPaid, setIsPaid] = useState(false);
-	const [modal, setModal] = useState(false);
-	const [modalForm, setModalForm] = useState(false);
+	// const payerId = useSelector((state) => state.payment.payment.payerId);
+	const alreadyPaid = useSelector((state) => state.payment.alreadyPaid);
+	// const checkPaid =() => {
+
+	// 	dispatch(checkAlreadyPaid({ payerId }));
+	// }
+
 	const [showPaypal, setShowPaypal] = useState(false);
 	const [fee, setFee] = useState(0);
+	const { isOpen, toggle, offices, showFormToFill } = props;
+
 	const showPaypalButtons = () => {
 		setShowPaypal(true);
 	};
@@ -38,15 +39,9 @@ export default function RunforButton({ offices }) {
 					details.payer.name.given_name + " " + details.payer.name.surname,
 			})
 		);
-		setIsPaid(true);
 		alert("Transaction completed by " + details.payer.name.given_name);
-		setModalForm(true);
 	};
-	const toggle = () => setModal(!modal);
 
-	const onRunfor = () => {
-		setModal(true);
-	};
 	const onGetAmount = () => {
 		let amount = convertPrice("Libertarian");
 		setFee(amount);
@@ -64,20 +59,16 @@ export default function RunforButton({ offices }) {
 		setFee(amount);
 	};
 
-	if (!isAuthenticated) {
-		return <Redirect to="/login" />;
-	}
+	console.log("payyyy", alreadyPaid);
 	return (
 		<div>
-			{isPaid || alreadyPaid ? (
+			{alreadyPaid ? (
 				<>
-					<Redirect to="/form" />
-					<FormEdit />
+					<Form offices={offices} showFormToFill={showFormToFill} />
 				</>
 			) : (
 				<div>
-					<Button onClick={onRunfor}>Run</Button>
-					<Modal isOpen={modal} toggle={toggle}>
+					<Modal isOpen={isOpen} toggle={toggle}>
 						<ModalHeader toggle={toggle}>For example</ModalHeader>
 						<ModalBody>
 							<FormExample />

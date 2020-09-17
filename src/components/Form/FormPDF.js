@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { degrees, PDFDocument, rgb, StandardFonts } from "pdf-lib";
-import { Document, Page } from "react-pdf";
-import download from "downloadjs";
+import React from "react";
+import { useSelector } from "react-redux";
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import { Button } from "reactstrap";
+import { useHistory } from "react-router-dom";
 
 export default function FormPDF() {
+	let history = useHistory();
 	const submittedForm = useSelector((state) => state.formManagement.form);
-	console.log("cccccc", submittedForm);
+	const backHomePage = () => {
+		history.push("/");
+	};
 	const url =
 		"http://localhost:8080/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
 	const modifyPdf = async () => {
@@ -65,10 +68,6 @@ export default function FormPDF() {
 			lineHeight: height / 2 - 488,
 		});
 
-		// Serialize the PDFDocument to bytes (a Uint8Array)
-		// const pdfBytes = await pdfDoc.save();
-		// download(pdfBytes, "pdf-lib_modification_example.pdf", "application/pdf");
-		// setPdfFile(pdfBytes);
 		const pdfUrl = URL.createObjectURL(
 			new Blob([await pdfDoc.save()], { type: "application/pdf" })
 		);
@@ -77,8 +76,9 @@ export default function FormPDF() {
 
 	return (
 		<div className="App">
-			<h1>After submit the form Click the button below to download</h1>
-			<h2 onClick={() => modifyPdf()}>Download</h2>
+			<h1>After submit the form Click the button below to get the form</h1>
+			<Button onClick={() => modifyPdf()}>Download</Button>
+			{/* <Button onClick={backHomePage}>Back to Home page</Button> */}
 		</div>
 	);
 }

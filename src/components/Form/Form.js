@@ -7,13 +7,13 @@ import "./Form.css";
 import FormPDF from "./FormPDF";
 
 function Form(props) {
-	const { isOpen } = props;
-	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+	const { showFormToFill } = props;
 	const dispatch = useDispatch();
 	const userAddress = useSelector((state) => state.address.userAddress);
-	const offices = useSelector((state) => state.address.offices);
+	// const offices = useSelector((state) => state.address.offices);
 	const userId = useSelector((state) => state.authentication.user.id);
 	const submittedForm = useSelector((state) => state.formManagement.form);
+	const { offices } = props;
 	console.log("00000", offices);
 
 	const [form, setForm] = useState({
@@ -38,52 +38,47 @@ function Form(props) {
 
 	return (
 		<>
-			<form>
-				<label forHtml="officeTitle">Office Title</label>
+			{showFormToFill && (
+				<form>
+					<label forHtml="officeTitle">Office Title</label>
 
-				<select name="officeTitle" onChange={onChangeFormInput}>
-					{offices?.map((office) => {
-						return <option value={office.name}>{office.name}</option>;
-					})}
-				</select>
-				{/* <input
-					type="text"
-					value={form.officeTitle}
-					name="officeTitle"
-					placeholder="Offices"
-					onChange={onChangeFormInput}
-				/> */}
-				<input
-					type="text"
-					value={form.candidatename}
-					name="candidatename"
-					placeholder="Your Name"
-					onChange={onChangeFormInput}
-				/>
-				<input
-					type="text"
-					value={form.disctrict}
-					name="disctrict"
-					placeholder="Disctrict"
-					onChange={onChangeFormInput}
-				/>
-				<input
-					type="text"
-					value={form.address}
-					name="address"
-					placeholder="place of residence"
-					onChange={onChangeFormInput}
-				/>
-				<input
-					type="text"
-					value={form.occupation}
-					name="occupation"
-					placeholder="Occupation"
-					onChange={onChangeFormInput}
-				/>
-				<button onClick={onCreateForm}>submit</button>
-				<FormPDF />
-			</form>
+					<select name="officeTitle" onChange={onChangeFormInput}>
+						{offices?.map((office) => {
+							return <option value={office.name}>{office.name}</option>;
+						})}
+					</select>
+					<input
+						type="text"
+						value={form.candidatename}
+						name="candidatename"
+						placeholder="Your Name"
+						onChange={onChangeFormInput}
+					/>
+					<input
+						type="text"
+						value={form.disctrict}
+						name="disctrict"
+						placeholder="Disctrict"
+						onChange={onChangeFormInput}
+					/>
+					<input
+						type="text"
+						value={form.address}
+						name="address"
+						placeholder="place of residence"
+						onChange={onChangeFormInput}
+					/>
+					<input
+						type="text"
+						value={form.occupation}
+						name="occupation"
+						placeholder="Occupation"
+						onChange={onChangeFormInput}
+					/>
+					<button onClick={onCreateForm}>submit</button>
+					<FormPDF />
+				</form>
+			)}
 		</>
 	);
 }

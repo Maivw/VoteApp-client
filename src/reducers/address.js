@@ -17,7 +17,6 @@ export const getOffices = (offices) => (dispatch) => {
 };
 
 export const FindOffices = (params) => async (dispatch) => {
-	console.log("ghgh", params);
 	// const result = await axios.get(
 	// 	` https://www.googleapis.com/civicinfo/v2/elections?key=AIzaSyBz6nwfaz00TcGhrBTs69sZdNgd0JPVP3g`
 	// );
@@ -31,7 +30,6 @@ export const FindOffices = (params) => async (dispatch) => {
 	);
 	if (response.ok) {
 		const res = await response.json();
-		console.log("AAA", res.offices);
 		dispatch(getOffices(res.offices));
 	}
 };

@@ -4,7 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import { getAddress, FindOffices } from "../../reducers/address";
 import Logout from "../Logout/Logout";
 import TableOffices from "./TableOffices";
-import RunforButton from "./RunforButton";
+import RunforModal from "./RunforButton";
 
 import PlacesAutocomplete, {
 	geocodeByAddress,
@@ -19,8 +19,9 @@ function Home(props) {
 	const userAddress = useSelector((state) => state.address.userAddress);
 	const offices = useSelector((state) => state.address.offices);
 	const [showTable, setShowTable] = useState(false);
+	const [showFormToFill, setShowFormToFill] = useState(false);
 	const [address, setAddress] = useState("");
-	const user = useSelector((state) => state.authentication.user);
+	const [modal, setModal] = useState(false);
 
 	const [lat, setLat] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
@@ -28,6 +29,8 @@ function Home(props) {
 		lat: null,
 		lng: null,
 	});
+
+	useEffect(() => {}, []);
 
 	const handleSelect = async (value) => {
 		const results = await geocodeByAddress(value);
@@ -51,6 +54,14 @@ function Home(props) {
 		setAddress("");
 	};
 
+	const display = () => {
+		setShowTable(!showTable);
+		setModal(true);
+		setShowFormToFill(true);
+	};
+	const toggle = () => {
+		setModal(false);
+	};
 	return (
 		<div>
 			<Logout />
@@ -83,7 +94,14 @@ function Home(props) {
 			</PlacesAutocomplete>
 			<button onClick={onFindOffice}>Search</button>
 			<button onClick={onFindMe}>Find me</button>
-			<TableOffices offices={offices} showTable={showTable} />
+			<button onClick={display}>Run for</button>
+			<TableOffices showTable={showTable} offices={offices} />
+			<RunforModal
+				isOpen={modal}
+				offices={offices}
+				toggle={toggle}
+				showFormToFill={showFormToFill}
+			/>
 		</div>
 	);
 }

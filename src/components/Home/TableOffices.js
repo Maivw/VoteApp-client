@@ -1,8 +1,8 @@
 import React from "react";
 import { Table, Button } from "reactstrap";
-import RunforButton from "./RunforButton";
 
-function TableOffices({ offices, showTable }) {
+function TableOffices(props) {
+	const { offices, showTable } = props;
 	return (
 		<div>
 			{offices && showTable && (
@@ -13,9 +13,6 @@ function TableOffices({ offices, showTable }) {
 							<th>Offfice Title</th>
 							<th>Role</th>
 							<th>Level</th>
-							<th>
-								<RunforButton offices={offices} />
-							</th>
 						</tr>
 					</thead>
 					{offices?.map((office, index) => (
