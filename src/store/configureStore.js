@@ -12,11 +12,11 @@ const persistConfig = {
 	key: "root",
 	storage,
 	// perist
-	// whitelist: [
-	//   'accountReducer'
-	// ],
+	whitelist: [
+		// 'accountReducer'
+	],
 	// not persist
-	// blacklist: ["address"],
+	blacklist: ["address"],
 };
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

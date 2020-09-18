@@ -1,1 +1,8 @@
 /* TODO Add site wide styles */
+
+.sticky-pagination {
+  position: -webkit-sticky;
+  position: sticky;
+  /* top: 100px; */
+  bottom: 0;
+}

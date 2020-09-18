@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowCircleLeft, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
+
 import file from "../Form/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -10,13 +14,19 @@ const options = {
 };
 
 function FormExample() {
-	const [pdfSrc, setPdfSrc] = useState(
-		"../Form/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf"
-	);
-	const [numPages, setNumPages] = useState(null);
+	const [numPagesFile, setNumPagesFile] = useState(null);
+	const [pageNumber, setPageNumber] = useState(1);
 
 	const onDocumentLoadSuccess = ({ numPages }) => {
-		setNumPages(numPages);
+		setNumPagesFile(numPages);
+	};
+
+	const setNextPage = () => {
+		setPageNumber(pageNumber + 1);
+	};
+
+	const setPrevPage = () => {
+		setPageNumber(pageNumber - 1);
 	};
 
 	return (
@@ -25,6 +35,7 @@ function FormExample() {
 				overflow: "scroll",
 				border: "1px dotted black",
 				height: 600,
+				position: 'relative'
 			}}
 		>
 			<Document
@@ -32,9 +43,18 @@ function FormExample() {
 				onLoadSuccess={onDocumentLoadSuccess}
 				options={options}
 			>
-				{Array.from(new Array(numPages), (el, index) => (
-					<Page key={`page_${index + 1}`} pageNumber={index + 1} />
-				))}
+				<Page pageNumber={pageNumber} />
+				<div className={'text-center sticky-pagination'}>
+					<FontAwesomeIcon
+						{...pageNumber > 1 && { onClick: setPrevPage }}
+						className={`page-button ${pageNumber > 1 ? '' : 'disabled'}`}
+						icon={faArrowCircleLeft} />
+					<span>{pageNumber} of {numPagesFile}</span>
+					<FontAwesomeIcon
+						{...pageNumber < numPagesFile && { onClick: setNextPage }}
+						className={`page-button ${pageNumber < numPagesFile ? '' : 'disabled'}`}
+						icon={faArrowCircleRight} />
+				</div>
 			</Document>
 		</div>
 	);

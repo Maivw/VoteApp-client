@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { getAddress, FindOffices } from "../../reducers/address";
+import { getAddress, findOffices } from "../../reducers/address";
 import Logout from "../Logout/Logout";
 import TableOffices from "./TableOffices";
 import RunforModal from "./RunforButton";
@@ -18,6 +18,7 @@ function Home(props) {
 	const dispatch = useDispatch();
 	const userAddress = useSelector((state) => state.address.userAddress);
 	const offices = useSelector((state) => state.address.offices);
+
 	const [showTable, setShowTable] = useState(false);
 	const [showFormToFill, setShowFormToFill] = useState(false);
 	const [address, setAddress] = useState("");
@@ -30,7 +31,7 @@ function Home(props) {
 		lng: null,
 	});
 
-	useEffect(() => {}, []);
+	useEffect(() => { }, []);
 
 	const handleSelect = async (value) => {
 		const results = await geocodeByAddress(value);
@@ -49,7 +50,7 @@ function Home(props) {
 
 	const onFindOffice = (e) => {
 		e.preventDefault();
-		dispatch(FindOffices({ address: userAddress, key: KEY }));
+		dispatch(findOffices({ address: userAddress, key: KEY }));
 		setShowTable(true);
 		setAddress("");
 	};
@@ -94,8 +95,9 @@ function Home(props) {
 			</PlacesAutocomplete>
 			<button onClick={onFindOffice}>Search</button>
 			<button onClick={onFindMe}>Find me</button>
+			{/* {offices.length > 0 && */}
 			<button onClick={display}>Run for</button>
-			<TableOffices showTable={showTable} offices={offices} />
+			<TableOffices />
 			<RunforModal
 				isOpen={modal}
 				offices={offices}

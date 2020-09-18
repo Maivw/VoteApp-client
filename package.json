@@ -5,6 +5,9 @@
 	"dependencies": {
 		"@ant-design/icons": "^4.2.2",
 		"@auth0/auth0-react": "^1.0.0",
+		"@fortawesome/fontawesome-svg-core": "^1.2.30",
+		"@fortawesome/free-solid-svg-icons": "^5.14.0",
+		"@fortawesome/react-fontawesome": "^0.1.11",
 		"@react-pdf/renderer": "^1.6.11",
 		"@testing-library/jest-dom": "^4.2.4",
 		"@testing-library/react": "^9.5.0",
@@ -22,6 +25,7 @@
 		"react-collapse": "^5.0.1",
 		"react-dom": "^16.13.1",
 		"react-google-login": "^5.1.21",
+		"react-hook-form": "^6.8.3",
 		"react-paypal-button-v2": "^2.6.2",
 		"react-pdf": "^5.0.0",
 		"react-places-autocomplete": "^7.3.0",

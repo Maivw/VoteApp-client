@@ -10,6 +10,13 @@ import Payment from "../Payment/Payment";
 import FormExample from "../Form/FormExample";
 import Form from "../Form/Form";
 
+const stateForm = [
+	{ id: 'Libertarian', name: 'Libertarian' },
+	{ id: 'Libertarian', name: 'Libertarian' },
+	{ id: 'Libertarian', name: 'Libertarian' },
+	{ id: 'Libertarian', name: 'Libertarian' },
+]
+
 export default function RunforModal(props) {
 	const dispatch = useDispatch();
 	const userId = useSelector((state) => state.authentication.user.id);
@@ -25,7 +32,7 @@ export default function RunforModal(props) {
 	const { isOpen, toggle, offices, showFormToFill } = props;
 
 	const showPaypalButtons = () => {
-		setShowPaypal(true);
+		// setShowPaypal(true);
 	};
 	const paymentHandler = (details) => {
 		dispatch(
@@ -68,78 +75,82 @@ export default function RunforModal(props) {
 					<Form offices={offices} showFormToFill={showFormToFill} />
 				</>
 			) : (
-				<div>
-					<Modal isOpen={isOpen} toggle={toggle}>
-						<ModalHeader toggle={toggle}>For example</ModalHeader>
-						<ModalBody>
-							<FormExample />
-							{showPaypal && (
-								<Payment
-									amount={fee}
-									currency={"USD"}
-									onSuccess={paymentHandler}
-								/>
-							)}
-							<FormGroup tag="party">
-								<legend>Are you ....</legend>
-								<FormGroup check>
-									<Label check>
-										<Input
-											type="radio"
-											name="radio1"
-											id="Libertarian"
-											value="Libertarian"
-											onClick={onGetAmount}
-										/>
+					<div>
+						<Modal
+							style={{
+								maxWidth: '800px', width: '70%',
+							}}
+							isOpen={isOpen} toggle={toggle}>
+							<ModalHeader toggle={toggle}>For example</ModalHeader>
+							<ModalBody>
+								<FormExample />
+								{showPaypal && (
+									<Payment
+										amount={fee}
+										currency={"USD"}
+										onSuccess={paymentHandler}
+									/>
+								)}
+								{/* <FormGroup tag="party">
+									<legend>Are you ....</legend>
+									<FormGroup check>
+										<Label check>
+											<Input
+												type="radio"
+												name="radio1"
+												id="Libertarian"
+												value="Libertarian"
+												onClick={onGetAmount}
+											/>
 										Libertarian
 									</Label>
-								</FormGroup>
-								<FormGroup check>
-									<Label>
-										<Input
-											type="radio"
-											name="radio1"
-											value="Democratic"
-											onClick={onGetAmountDemocratic}
-										/>
+									</FormGroup>
+									<FormGroup check>
+										<Label>
+											<Input
+												type="radio"
+												name="radio1"
+												value="Democratic"
+												onClick={onGetAmountDemocratic}
+											/>
 										Democratic
 									</Label>
-								</FormGroup>
-								<FormGroup check>
-									<Label>
-										<Input
-											type="radio"
-											name="radio1"
-											value="Republican"
-											onClick={onGetAmountRepublican}
-										/>
+									</FormGroup>
+									<FormGroup check>
+										<Label>
+											<Input
+												type="radio"
+												name="radio1"
+												value="Republican"
+												onClick={onGetAmountRepublican}
+											/>
 										Republican
 									</Label>
-								</FormGroup>
-								<FormGroup check>
-									<Label>
-										<Input
-											type="radio"
-											name="radio1"
-											value="Other"
-											onClick={onGetAmountOthers}
-										/>
+									</FormGroup>
+									<FormGroup check>
+										<Label>
+											<Input
+												type="radio"
+												name="radio1"
+												value="Other"
+												onClick={onGetAmountOthers}
+											/>
 										Others
 									</Label>
-								</FormGroup>
-							</FormGroup>
-						</ModalBody>
-						<ModalFooter>
-							<Button color="primary" onClick={showPaypalButtons}>
-								Pay to get the form
+									</FormGroup>
+								</FormGroup> */}
+							</ModalBody>
+							<ModalFooter>
+								<Button color="primary" onClick={showPaypalButtons}>
+									Pay to get the form
 							</Button>
-							<Button color="secondary" onClick={toggle}>
-								Cancel
+								<Button color="secondary" onClick={toggle}>
+									Cancel
 							</Button>
-						</ModalFooter>
-					</Modal>
-				</div>
-			)}
+							</ModalFooter>
+						</Modal>
+					</div>
+				)}
 		</div>
 	);
 }
