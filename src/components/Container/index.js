@@ -35,7 +35,7 @@ export default function Container() {
 				});
 
 				const result = await res.json();
-				dispatch(setUser({ ...user, id: result.user.id }));
+				dispatch(setUser({ ...user, id: result.user.id, token }));
 			} catch (e) {
 				console.log(e.message);
 			}

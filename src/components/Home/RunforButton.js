@@ -13,7 +13,7 @@ import Form from "../Form/Form";
 export default function RunforModal(props) {
 	const dispatch = useDispatch();
 	const userId = useSelector((state) => state.authentication.user.id);
-	// const payerId = useSelector((state) => state.payment.payment.payerId);
+	const userEmail = useSelector((state) => state.authentication.user.email);
 	const alreadyPaid = useSelector((state) => state.payment.alreadyPaid);
 	// const checkPaid =() => {
 
@@ -32,11 +32,12 @@ export default function RunforModal(props) {
 			checkout({
 				payerId: details.payer.payer_id,
 				userId,
-				emailAddress: details.payer.email_address,
+				paymentEmail: details.payer.email_address,
 				amount: details.purchase_units[0].amount.value,
 				currentcyCode: details.purchase_units[0].amount.currency_code,
 				payerName:
 					details.payer.name.given_name + " " + details.payer.name.surname,
+				userEmail,
 			})
 		);
 		alert("Transaction completed by " + details.payer.name.given_name);
