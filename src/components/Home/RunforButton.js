@@ -20,8 +20,11 @@ const stateForm = [
 export default function RunforModal(props) {
 	const history = useHistory()
 	const dispatch = useDispatch();
-	const userId = useSelector((state) => state.authentication.user.id);
+
+	const { loginWithRedirect, isAuthenticated } = useAuth0();
+
 	const userEmail = useSelector((state) => state.authentication.user.email);
+	const user = useSelector((state) => state.authentication.user);
 
 	const [showPaypal, setShowPaypal] = useState(false);
 	const [isParty, setIsParty] = useState(null);
@@ -29,6 +32,9 @@ export default function RunforModal(props) {
 	const { isOpen, toggle, offices, showFormToFill } = props;
 
 	const showPaypalButtons = () => {
+		if (!isAuthenticated) {
+			loginWithRedirect()
+		}
 		if (!isParty) {
 			setIsError(true)
 			return
@@ -42,7 +48,7 @@ export default function RunforModal(props) {
 		dispatch(
 			checkout({
 				payerId: details.payer.payer_id,
-				userId,
+				userId: user?.id,
 				paymentEmail: details.payer.email_address,
 				amount: details.purchase_units[0].amount.value,
 				currentcyCode: details.purchase_units[0].amount.currency_code,
