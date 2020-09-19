@@ -63,6 +63,9 @@ function Home(props) {
 	const toggle = () => {
 		setModal(false);
 	};
+
+	console.log('offices home', offices)
+
 	return (
 		<div>
 			<Logout />

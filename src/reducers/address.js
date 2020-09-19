@@ -1,6 +1,6 @@
 import axios from "../config/axiosConfig";
 const GET_ADDRESS = "GET_ADDRESS";
-const FIND_OFFICES = "FIND_OFFICES";
+const SET_OFFICES = "SET_OFFICES";
 
 export const getAddress = (userAddress) => (dispatch) => {
 	dispatch({
@@ -11,7 +11,7 @@ export const getAddress = (userAddress) => (dispatch) => {
 
 export const getOffices = (offices) => (dispatch) => {
 	dispatch({
-		type: FIND_OFFICES,
+		type: SET_OFFICES,
 		offices,
 	});
 };
@@ -44,7 +44,8 @@ export default function reducer(state = initialState, action) {
 				userAddress: action.userAddress,
 			};
 		}
-		case FIND_OFFICES: {
+		case SET_OFFICES: {
+			console.log('action.offices', action.offices)
 			return {
 				...state,
 				offices: action.offices,

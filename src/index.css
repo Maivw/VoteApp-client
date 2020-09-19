@@ -6,3 +6,9 @@
   /* top: 100px; */
   bottom: 0;
 }
+
+/* .container-pdf-preview  */
+.react-pdf__Page__canvas {
+  width: 100% !important;
+  height: auto !important;
+}

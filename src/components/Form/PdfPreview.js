@@ -31,10 +31,11 @@ function FormExample() {
 
 	return (
 		<div
+			className='container-pdf-preview'
 			style={{
 				overflow: "scroll",
 				border: "1px dotted black",
-				height: 600,
+				height: 450,
 				position: 'relative'
 			}}
 		>

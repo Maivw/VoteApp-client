@@ -33,7 +33,7 @@ export const fetchExampleForm = (params) => async (dispatch) => {
 
 	dispatch(getExampleForm(result.data));
 };
-export const CreateForm = (params) => async (dispatch) => {
+export const addForm = (params) => async (dispatch) => {
 	console.log("999999", params);
 	const result = await axios.post("/form", { ...params });
 

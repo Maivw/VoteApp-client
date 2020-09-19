@@ -2,39 +2,43 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import { checkout, checkAlreadyPaid } from "../../reducers/payment";
-import { convertPrice } from "../../utils";
-import { Redirect } from "react-router-dom";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Redirect, useHistory } from "react-router-dom";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormFeedback } from "reactstrap";
 import { FormGroup, Label, Input } from "reactstrap";
 import Payment from "../Payment/Payment";
-import FormExample from "../Form/FormExample";
+import PdfPreview from "../Form/PdfPreview";
 import Form from "../Form/Form";
+import { parties, PartiesConst } from "../../utils";
 
 const stateForm = [
-	{ id: 'Libertarian', name: 'Libertarian' },
-	{ id: 'Libertarian', name: 'Libertarian' },
-	{ id: 'Libertarian', name: 'Libertarian' },
-	{ id: 'Libertarian', name: 'Libertarian' },
+	{ id: PartiesConst.LIBERTARIAN, name: PartiesConst.LIBERTARIAN },
+	{ id: PartiesConst.DEMOCRATIC, name: PartiesConst.DEMOCRATIC },
+	{ id: PartiesConst.REPUBLICAN, name: PartiesConst.REPUBLICAN },
+	{ id: PartiesConst.OTHERS, name: PartiesConst.OTHERS },
 ]
 
 export default function RunforModal(props) {
+	const history = useHistory()
 	const dispatch = useDispatch();
 	const userId = useSelector((state) => state.authentication.user.id);
 	const userEmail = useSelector((state) => state.authentication.user.email);
-	const alreadyPaid = useSelector((state) => state.payment.alreadyPaid);
-	// const checkPaid =() => {
-
-	// 	dispatch(checkAlreadyPaid({ payerId }));
-	// }
 
 	const [showPaypal, setShowPaypal] = useState(false);
-	const [fee, setFee] = useState(0);
+	const [isParty, setIsParty] = useState(null);
+	const [isError, setIsError] = useState(false);
 	const { isOpen, toggle, offices, showFormToFill } = props;
 
 	const showPaypalButtons = () => {
-		// setShowPaypal(true);
+		if (!isParty) {
+			setIsError(true)
+			return
+		}
+		setShowPaypal(true);
 	};
 	const paymentHandler = (details) => {
+		if (details.status !== 'COMPLETED') {
+			return
+		}
 		dispatch(
 			checkout({
 				payerId: details.payer.payer_id,
@@ -45,112 +49,70 @@ export default function RunforModal(props) {
 				payerName:
 					details.payer.name.given_name + " " + details.payer.name.surname,
 				userEmail,
+				alreadyPaid: true
 			})
 		);
-		alert("Transaction completed by " + details.payer.name.given_name);
+		toggle()
+		history.push('/form')
+
 	};
 
-	const onGetAmount = () => {
-		let amount = convertPrice("Libertarian");
-		setFee(amount);
-	};
-	const onGetAmountDemocratic = () => {
-		let amount = convertPrice("Democratic");
-		setFee(amount);
-	};
-	const onGetAmountRepublican = () => {
-		let amount = convertPrice("Republican");
-		setFee(amount);
-	};
-	const onGetAmountOthers = () => {
-		let amount = convertPrice("Others");
-		setFee(amount);
-	};
 
-	console.log("payyyy", alreadyPaid);
+	const onChangeSelect = (e) => {
+		setIsParty(e.target.name)
+		setIsError(false)
+	}
+
+
 	return (
 		<div>
-			{alreadyPaid ? (
-				<>
-					<Form offices={offices} showFormToFill={showFormToFill} />
-				</>
-			) : (
-					<div>
-						<Modal
-							style={{
-								maxWidth: '800px', width: '70%',
-							}}
-							isOpen={isOpen} toggle={toggle}>
-							<ModalHeader toggle={toggle}>For example</ModalHeader>
-							<ModalBody>
-								<FormExample />
-								{showPaypal && (
-									<Payment
-										amount={fee}
-										currency={"USD"}
-										onSuccess={paymentHandler}
-									/>
-								)}
-								{/* <FormGroup tag="party">
-									<legend>Are you ....</legend>
-									<FormGroup check>
-										<Label check>
-											<Input
-												type="radio"
-												name="radio1"
-												id="Libertarian"
-												value="Libertarian"
-												onClick={onGetAmount}
-											/>
-										Libertarian
+			<Modal
+				style={{
+					maxWidth: '700px', width: '70%',
+					maxHeight: 'calc(100vh - 200px)'
+				}}
+				isOpen={isOpen} toggle={toggle}>
+				<ModalHeader toggle={toggle}>For example</ModalHeader>
+				<ModalBody>
+					<PdfPreview />
+					{showPaypal && (
+						<Payment
+							amount={parties[isParty]}
+							currency={"USD"}
+							onSuccess={paymentHandler}
+						/>
+					)}
+					<FormGroup tag="party">
+						<legend>Are you ....</legend>
+						{stateForm.map(e => {
+							return (
+								<FormGroup check>
+									<Label check>
+										<Input
+											type="radio"
+											name={e.name}
+											id={e.id}
+											value={e.name}
+											checked={isParty === e.name}
+											onClick={onChangeSelect}
+										/>
+										{e.name}
 									</Label>
-									</FormGroup>
-									<FormGroup check>
-										<Label>
-											<Input
-												type="radio"
-												name="radio1"
-												value="Democratic"
-												onClick={onGetAmountDemocratic}
-											/>
-										Democratic
-									</Label>
-									</FormGroup>
-									<FormGroup check>
-										<Label>
-											<Input
-												type="radio"
-												name="radio1"
-												value="Republican"
-												onClick={onGetAmountRepublican}
-											/>
-										Republican
-									</Label>
-									</FormGroup>
-									<FormGroup check>
-										<Label>
-											<Input
-												type="radio"
-												name="radio1"
-												value="Other"
-												onClick={onGetAmountOthers}
-											/>
-										Others
-									</Label>
-									</FormGroup>
-								</FormGroup> */}
-							</ModalBody>
-							<ModalFooter>
-								<Button color="primary" onClick={showPaypalButtons}>
-									Pay to get the form
+								</FormGroup>
+							)
+						})}
+						{isError && <div className='text-danger'>You have to select one of those item</div>}
+					</FormGroup>
+				</ModalBody>
+				<ModalFooter>
+					<Button color="primary" onClick={showPaypalButtons}>
+						Pay to get the form
 							</Button>
-								<Button color="secondary" onClick={toggle}>
-									Cancel
+					<Button color="secondary" onClick={toggle}>
+						Cancel
 							</Button>
-							</ModalFooter>
-						</Modal>
-					</div>
-				)}
+				</ModalFooter>
+			</Modal>
 		</div>
 	);
 }
