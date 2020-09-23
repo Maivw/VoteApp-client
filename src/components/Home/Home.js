@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import { getAddress, findOffices } from "../../reducers/address";
 import Logout from "../Logout/Logout";
 import TableOffices from "./TableOffices";
@@ -16,6 +17,10 @@ const KEY = "AIzaSyBz6nwfaz00TcGhrBTs69sZdNgd0JPVP3g";
 
 function Home(props) {
 	const dispatch = useDispatch();
+	const history = useHistory();
+	const { loginWithRedirect, isAuthenticated } = useAuth0();
+
+	const user = useSelector((state) => state.authentication.user);
 	const userAddress = useSelector((state) => state.address.userAddress);
 	const offices = useSelector((state) => state.address.offices);
 
@@ -56,6 +61,7 @@ function Home(props) {
 	};
 
 	const display = () => {
+		user?.alreadyPaid && history.push('/form')
 		setShowTable(!showTable);
 		setModal(true);
 		setShowFormToFill(true);
@@ -68,7 +74,7 @@ function Home(props) {
 
 	return (
 		<div>
-			<Logout />
+			{!isAuthenticated ? <button onClick={() => loginWithRedirect()}>Log In</button> : <Logout />}
 			<p>Enter your address to find put the offices you can run for</p>
 			<PlacesAutocomplete
 				value={address}

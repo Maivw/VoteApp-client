@@ -25,6 +25,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case SET_USER: {
+			console.log('1111111111111')
 			return {
 				...state,
 				user: action.user,
