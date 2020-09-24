@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { addForm } from "../../reducers/formManagement";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Select from "react-select";
 import "./Form.css";
 
 function InputFormScreen(props) {
+	const history = useHistory();
 	const dispatch = useDispatch();
 	const userAddress = useSelector((state) => state.address.userAddress);
 	const offices = useSelector((state) => state.address.offices);
@@ -50,10 +51,13 @@ function InputFormScreen(props) {
 		setForm((prev) => ({ ...prev, [name]: e.target.value }));
 	};
 
+	const backHomePage = () => {
+		history.push("/");
+	};
 	return (
 		<div className="container" style={{ color: "#666464" }}>
 			<Row className="justify-content-center">
-				<Col md="8" lg="11" xl="7">
+				<Col md="10" lg="11" xl="7">
 					<h4 className="text-white mb-4">Please fill out the form</h4>
 					<Select
 						value={officeSelected}
@@ -93,15 +97,20 @@ function InputFormScreen(props) {
 						<Col>
 							<Button
 								color="warning"
-								style={{ height: 40, width: 150 }}
+								style={{ height: 40, width: 90 }}
 								onClick={onCreateForm("preview")}
 							>
-								Send to Preview
+								Preview
 							</Button>
 						</Col>
 						<Col className="justify-content-end d-flex">
 							<Button color="warning" onClick={onCreateForm("download")}>
 								Download
+							</Button>
+						</Col>
+						<Col className="justify-content-end d-flex">
+							<Button color="warning" onClick={backHomePage}>
+								Back
 							</Button>
 						</Col>
 					</Row>
