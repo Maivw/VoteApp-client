@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import { checkout, checkAlreadyPaid } from "../../reducers/payment";
-import { Redirect, useHistory } from "react-router-dom";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormFeedback } from "reactstrap";
+import { checkout } from "../../reducers/payment";
+import { useHistory } from "react-router-dom";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { FormGroup, Label, Input } from "reactstrap";
 import Payment from "../Payment/Payment";
 import PdfPreview from "../Form/PdfPreview";
-import Form from "../Form/Form";
 import { parties, PartiesConst } from "../../utils";
 
 const stateForm = [
@@ -15,10 +14,10 @@ const stateForm = [
 	{ id: PartiesConst.DEMOCRATIC, name: PartiesConst.DEMOCRATIC },
 	{ id: PartiesConst.REPUBLICAN, name: PartiesConst.REPUBLICAN },
 	{ id: PartiesConst.OTHERS, name: PartiesConst.OTHERS },
-]
+];
 
 export default function RunforModal(props) {
-	const history = useHistory()
+	const history = useHistory();
 	const dispatch = useDispatch();
 
 	const { loginWithRedirect, isAuthenticated } = useAuth0();
@@ -33,17 +32,17 @@ export default function RunforModal(props) {
 
 	const showPaypalButtons = () => {
 		if (!isAuthenticated) {
-			loginWithRedirect()
+			loginWithRedirect();
 		}
 		if (!isParty) {
-			setIsError(true)
-			return
+			setIsError(true);
+			return;
 		}
 		setShowPaypal(true);
 	};
 	const paymentHandler = (details) => {
-		if (details.status !== 'COMPLETED') {
-			return
+		if (details.status !== "COMPLETED") {
+			return;
 		}
 		dispatch(
 			checkout({
@@ -55,42 +54,44 @@ export default function RunforModal(props) {
 				payerName:
 					details.payer.name.given_name + " " + details.payer.name.surname,
 				userEmail,
-				alreadyPaid: true
+				alreadyPaid: true,
 			})
 		);
-		toggle()
-		history.push('/form')
-
+		toggle();
+		history.push("/form");
 	};
 
-
 	const onChangeSelect = (e) => {
-		setIsParty(e.target.name)
-		setIsError(false)
-	}
-
+		setIsParty(e.target.name);
+		setIsError(false);
+	};
 
 	return (
 		<div>
 			<Modal
 				style={{
-					maxWidth: '700px', width: '70%',
-					maxHeight: 'calc(100vh - 200px)'
+					maxWidth: "700px",
+					width: "70%",
+					maxHeight: "calc(100vh - 200px)",
 				}}
-				isOpen={isOpen} toggle={toggle}>
+				isOpen={isOpen}
+				toggle={toggle}
+			>
 				<ModalHeader toggle={toggle}>For example</ModalHeader>
 				<ModalBody>
 					<PdfPreview />
-					{showPaypal && (
-						<Payment
-							amount={parties[isParty]}
-							currency={"USD"}
-							onSuccess={paymentHandler}
-						/>
-					)}
-					<FormGroup tag="party">
-						<legend>Are you ....</legend>
-						{stateForm.map(e => {
+					<div style={{ marginTop: 20 }}>
+						{showPaypal && (
+							<Payment
+								amount={parties[isParty]}
+								currency={"USD"}
+								onSuccess={paymentHandler}
+							/>
+						)}
+					</div>
+					<FormGroup tag="party" style={{ color: "#666464", marginTop: 10 }}>
+						<legend>Which party will you run for office under?</legend>
+						{stateForm.map((e) => {
 							return (
 								<FormGroup check>
 									<Label check>
@@ -105,18 +106,20 @@ export default function RunforModal(props) {
 										{e.name}
 									</Label>
 								</FormGroup>
-							)
+							);
 						})}
-						{isError && <div className='text-danger'>You have to select one of those item</div>}
+						{isError && (
+							<div className="text-danger">You have to select an option.</div>
+						)}
 					</FormGroup>
 				</ModalBody>
 				<ModalFooter>
 					<Button color="primary" onClick={showPaypalButtons}>
 						Pay to get the form
-							</Button>
+					</Button>
 					<Button color="secondary" onClick={toggle}>
 						Cancel
-							</Button>
+					</Button>
 				</ModalFooter>
 			</Modal>
 		</div>

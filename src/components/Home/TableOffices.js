@@ -1,40 +1,43 @@
 import React from "react";
 import { Table, Button } from "reactstrap";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
+import "./TableOffices.css";
 
 function TableOffices(props) {
-	const offices = useSelector(state => state.address.offices);
+	const offices = useSelector((state) => state.address.offices);
 
 	return (
-		<div>
-			{offices.length > 0 && <Table hover>
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Offfice Title</th>
-						<th>Role</th>
-						<th>Level</th>
-					</tr>
-				</thead>
-				{offices?.map((office, index) => (
-					<tbody key={index}>
+		<div className="table__offices">
+			{offices.length > 0 && (
+				<Table hover className="table__offices">
+					<thead>
 						<tr>
-							<th scope="row">{index + 1}</th>
-							<td>{office.name}</td>
-							<td>
-								{office.roles?.map((role) => (
-									<li>{role}</li>
-								))}
-							</td>
-							<td>
-								{office.levels?.map((level) => (
-									<li>{level}</li>
-								))}
-							</td>
+							<th>#</th>
+							<th>Offfice Title</th>
+							<th>Role</th>
+							<th>Level</th>
 						</tr>
-					</tbody>
-				))}
-			</Table>}
+					</thead>
+					{offices?.map((office, index) => (
+						<tbody key={index}>
+							<tr>
+								<th scope="row">{index + 1}</th>
+								<td>{office.name}</td>
+								<td>
+									{office.roles?.map((role) => (
+										<li>{role}</li>
+									))}
+								</td>
+								<td>
+									{office.levels?.map((level) => (
+										<li>{level}</li>
+									))}
+								</td>
+							</tr>
+						</tbody>
+					))}
+				</Table>
+			)}
 		</div>
 	);
 }

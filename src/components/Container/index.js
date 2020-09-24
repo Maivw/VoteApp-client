@@ -7,8 +7,6 @@ import Login from "../Login/Login";
 
 export default function Container() {
 	const dispatch = useDispatch();
-	//const user = useSelector((state) => state.authentication.user);
-	// const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
@@ -35,7 +33,14 @@ export default function Container() {
 				});
 
 				const result = await res.json();
-				dispatch(setUser({ ...user, id: result.user.id, token, alreadyPaid: result.user.alreadyPaid }));
+				dispatch(
+					setUser({
+						...user,
+						id: result.user.id,
+						token,
+						alreadyPaid: result.user.alreadyPaid,
+					})
+				);
 			} catch (e) {
 				console.log(e.message);
 			}
