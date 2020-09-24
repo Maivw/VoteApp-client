@@ -15,7 +15,7 @@ body {
 	display: block;
 	filter: blur(10px);
 	-webkit-filter: blur(10px);
-	transition: all 5000;
+	transition: all 500;
 }
 
 .home:hover::after {

@@ -16,7 +16,7 @@ import PlacesAutocomplete, {
 	getLatLng,
 } from "react-places-autocomplete";
 
-const KEY = "AIzaSyBz6nwfaz00TcGhrBTs69sZdNgd0JPVP3g";
+// const KEY = "AIzaSyBz6nwfaz00TcGhrBTs69sZdNgd0JPVP3g";
 
 function Home(props) {
 	const dispatch = useDispatch();
@@ -58,7 +58,9 @@ function Home(props) {
 
 	const onFindOffice = (e) => {
 		e.preventDefault();
-		dispatch(findOffices({ address: userAddress, key: KEY }));
+		dispatch(
+			findOffices({ address: userAddress, key: process.env.REACT_APP_KEY })
+		);
 		setShowTable(true);
 		setAddress("");
 	};
