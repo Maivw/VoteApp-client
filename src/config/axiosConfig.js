@@ -15,8 +15,6 @@ const api = create({
 api.interceptors.request.use((config) => {
 	const state = store.getState();
 	const token = state.authentication.user.token;
-	console.log("TOKEN", token);
-
 	return {
 		...config,
 		headers: { ...config.headers, Authorization: `Bearer ${token}` },
