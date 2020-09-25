@@ -10,8 +10,10 @@ export default function FormPDF() {
 	const backHomePage = () => {
 		history.push("/");
 	};
+	// const url =
+	// 	"http://localhost:8080/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
 	const url =
-		"http://localhost:8080/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
+		"https://voteappbackend.herokuapp.com/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
 	const modifyPdf = async () => {
 		const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
 		const pdfDoc = await PDFDocument.load(existingPdfBytes);

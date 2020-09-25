@@ -12,27 +12,19 @@ export const removeUser = (user) => {
 	return { type: REMOVE_USER };
 };
 
-// export const setUser = (user) => (dispatch) => {
-// 	dispatch({
-// 		type: SET_USER,
-// 		user,
-// 	});
-// };
-
 const initialState = {
 	user: {},
 };
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case SET_USER: {
-			console.log('1111111111111')
 			return {
 				...state,
 				user: action.user,
 			};
 		}
 		case UPDATE_USER: {
-			console.log('action.paymentStatus', action.paymentStatus)
+			console.log("action.paymentStatus", action.paymentStatus);
 			return {
 				...state,
 				user: { ...state.user, alreadyPaid: action.paymentStatus },

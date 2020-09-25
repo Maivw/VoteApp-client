@@ -7,8 +7,10 @@ import InputForm from "./InputForm";
 import PdfPreviewFilled from "../Form/PdfPreviewFilled";
 import { template } from "./template";
 
+// const url =
+// 	"http://localhost:8080/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
 const url =
-	"http://localhost:8080/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
+	"https://voteappbackend.herokuapp.com/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
 
 function FormScreen(props) {
 	const dispatch = useDispatch();

@@ -4,7 +4,7 @@ import { store } from "../index";
 
 const api = create({
 	// baseURL: "https://www.googleapis.com/civicinfo/v2/representatives",
-	baseURL: "http://localhost:8080",
+	baseURL: "https://voteappbackend.herokuapp.com",
 	headers: {
 		Accept: "application/json",
 		"Content-Type": "application/json",
