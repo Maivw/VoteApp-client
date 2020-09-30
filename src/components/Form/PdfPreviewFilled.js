@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowCircleLeft, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faArrowCircleLeft,
+	faArrowCircleRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 import file from "../Form/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -18,9 +20,7 @@ function PdfPreviewFilled(props) {
 	const [numPagesFile, setNumPagesFile] = useState(null);
 	const [pageNumber, setPageNumber] = useState(1);
 
-	const { data } = props
-
-
+	const { data } = props;
 
 	const onDocumentLoadSuccess = ({ numPages }) => {
 		setNumPagesFile(numPages);
@@ -40,7 +40,7 @@ function PdfPreviewFilled(props) {
 				overflow: "scroll",
 				border: "1px dotted black",
 				height: 800,
-				position: 'relative'
+				position: "relative",
 			}}
 		>
 			<Document
@@ -49,16 +49,22 @@ function PdfPreviewFilled(props) {
 				options={options}
 			>
 				<Page pageNumber={pageNumber} />
-				<div className={'text-center sticky-pagination'}>
+				<div className={"text-center sticky-pagination"}>
 					<FontAwesomeIcon
-						{...pageNumber > 1 && { onClick: setPrevPage }}
-						className={`page-button ${pageNumber > 1 ? '' : 'disabled'}`}
-						icon={faArrowCircleLeft} />
-					<span>{pageNumber} of {numPagesFile}</span>
+						{...(pageNumber > 1 && { onClick: setPrevPage })}
+						className={`page-button ${pageNumber > 1 ? "" : "disabled"}`}
+						icon={faArrowCircleLeft}
+					/>
+					<span>
+						{pageNumber} of {numPagesFile}
+					</span>
 					<FontAwesomeIcon
-						{...pageNumber < numPagesFile && { onClick: setNextPage }}
-						className={`page-button ${pageNumber < numPagesFile ? '' : 'disabled'}`}
-						icon={faArrowCircleRight} />
+						{...(pageNumber < numPagesFile && { onClick: setNextPage })}
+						className={`page-button ${
+							pageNumber < numPagesFile ? "" : "disabled"
+						}`}
+						icon={faArrowCircleRight}
+					/>
 				</div>
 			</Document>
 		</div>

@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { PayPalButton } from "react-paypal-button-v2";
 
 export default function Payment({ amount, onSuccess, currency }) {
@@ -10,8 +9,7 @@ export default function Payment({ amount, onSuccess, currency }) {
 				currency={currency}
 				onSuccess={(details, data) => onSuccess(details, data)}
 				options={{
-					clientId:
-						"ARXVgrBFuxV3XDZBCkwgNLTGJfFbxZfP_h_aDTi3TFcCFSi6HpcxgVlDb_nNsOYe_bBSHWjfKs0vE8Os",
+					clientId: process.env.REACT_APP_CLIENT_ID,
 				}}
 			/>
 		</>

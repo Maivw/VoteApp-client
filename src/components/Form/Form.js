@@ -1,19 +1,14 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import { Row, Col } from "reactstrap";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
-import "./Form.css";
 import InputForm from "./InputForm";
 import PdfPreviewFilled from "../Form/PdfPreviewFilled";
 import { template } from "./template";
 
-// const url =
-// 	"http://localhost:8080/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
 const url =
 	"https://voteappbackend.herokuapp.com/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
 
 function FormScreen(props) {
-	const dispatch = useDispatch();
 	const [pdfFile, setPdfFile] = useState();
 
 	const onSetInputForm = async (data, type) => {
@@ -22,13 +17,10 @@ function FormScreen(props) {
 		const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
 		const pages = pdfDoc.getPages();
 		const firstPage = pages[0];
-		const { width, height } = firstPage.getSize();
+		const { height } = firstPage.getSize();
 
 		for (let i = 0; i < template({ helveticaFont, height, rgb }).length; i++) {
-			console.log(
-				"ooo",
-				data[template({ helveticaFont, height, rgb })[i].name]
-			);
+			console.log(data[template({ helveticaFont, height, rgb })[i].name]);
 			firstPage.drawText(
 				data[template({ helveticaFont, height, rgb })[i].name],
 				template({ helveticaFont, height, rgb })[i]

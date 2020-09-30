@@ -18,6 +18,7 @@ function Footer() {
 						<img
 							className="footer__image"
 							src="https://res.cloudinary.com/maivw/image/upload/v1600918076/VoteApp/usamap_i30tjv.svg"
+							alt="map"
 						/>
 					</Col>
 				</Row>

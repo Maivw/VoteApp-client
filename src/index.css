@@ -1,15 +1,13 @@
-/* TODO Add site wide styles */
 body {
 	background-color: rgba(0, 0, 0, 0.9);
 }
 .sticky-pagination {
 	position: -webkit-sticky;
 	position: sticky;
-	/* top: 100px; */
+
 	bottom: 0;
 }
 
-/* .container-pdf-preview  */
 .react-pdf__Page__canvas {
 	width: 100% !important;
 	height: auto !important;

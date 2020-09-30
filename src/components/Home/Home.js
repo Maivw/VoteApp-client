@@ -12,11 +12,8 @@ import Footer from "./Footer";
 
 import PlacesAutocomplete, {
 	geocodeByAddress,
-	geocodeByPlaceId,
 	getLatLng,
 } from "react-places-autocomplete";
-
-// const KEY = "AIzaSyBz6nwfaz00TcGhrBTs69sZdNgd0JPVP3g";
 
 function Home(props) {
 	const dispatch = useDispatch();
@@ -32,8 +29,6 @@ function Home(props) {
 	const [address, setAddress] = useState("");
 	const [modal, setModal] = useState(false);
 
-	const [lat, setLat] = useState("");
-	const [errorMessage, setErrorMessage] = useState("");
 	const [coordinates, setCoordinates] = useState({
 		lat: null,
 		lng: null,
@@ -47,13 +42,6 @@ function Home(props) {
 		setAddress(value);
 		dispatch(getAddress(value));
 		setCoordinates(latLng);
-	};
-
-	const onFindMe = () => {
-		window.navigator.geolocation.getCurrentPosition(
-			(position) => setLat({ lat: position.coords.latitude }),
-			(err) => setErrorMessage({ errorMessage: err.message })
-		);
 	};
 
 	const onFindOffice = (e) => {
@@ -115,7 +103,7 @@ function Home(props) {
 					}) => (
 						<div>
 							<Input
-								class="shadow-sm p-3 mb-5 bg-white rounded"
+								className="shadow-sm p-3 mb-5 bg-white rounded"
 								{...getInputProps({ placeholder: "Type your address" })}
 							/>
 							<div>

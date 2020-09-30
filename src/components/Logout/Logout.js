@@ -1,8 +1,8 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { removeUser } from "../../reducers/authentication";
-import { Input, Button } from "reactstrap";
+import { Button } from "reactstrap";
 
 const LogoutButton = () => {
 	const dispatch = useDispatch();

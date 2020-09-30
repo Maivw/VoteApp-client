@@ -1,9 +1,9 @@
 import React from "react";
-import { Table, Button } from "reactstrap";
-import { useSelector, useDispatch } from "react-redux";
+import { Table } from "reactstrap";
+import { useSelector } from "react-redux";
 import "./TableOffices.css";
 
-function TableOffices(props) {
+function TableOffices() {
 	const offices = useSelector((state) => state.address.offices);
 
 	return (

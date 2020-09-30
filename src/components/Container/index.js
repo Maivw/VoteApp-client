@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import { setUser } from "../../reducers/authentication";
 import Home from "../Home/Home";
-import Login from "../Login/Login";
 
 export default function Container() {
 	const dispatch = useDispatch();
-	const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+	const { user, getAccessTokenSilently } = useAuth0();
 
 	useEffect(() => {
 		const pathUserDetail = async () => {
@@ -19,7 +18,7 @@ export default function Container() {
 					scope: "read:current_user",
 				});
 
-				const res = await fetch(`http://localhost:8080/users`, {
+				const res = await fetch(`https://voteappbackend.herokuapp.com/users`, {
 					method: "PATCH",
 					headers: {
 						"Content-Type": "application/json",

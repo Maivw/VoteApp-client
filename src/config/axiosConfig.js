@@ -1,9 +1,7 @@
 import { create } from "axios";
 import { store } from "../index";
-// const KEY = "AIzaSyAuevnfFWR-Lune1uQnOPgcjQXoy0SvgR4";
 
 const api = create({
-	// baseURL: "https://www.googleapis.com/civicinfo/v2/representatives",
 	baseURL: "https://voteappbackend.herokuapp.com",
 	headers: {
 		Accept: "application/json",
@@ -20,17 +18,5 @@ api.interceptors.request.use((config) => {
 		headers: { ...config.headers, Authorization: `Bearer ${token}` },
 	};
 });
-
-// Add a response interceptor
-// api.axiosInstance.interceptors.response.use((response) => response, (error) => {
-//   // Do something with response error
-//   if (error.response.status === 401) {
-//     window.alert('Something went wrong!. Please login again');  //eslint-disable-line
-//     // window.location.reload();
-//     store.dispatch(removeToken());
-//     window.location.href = '/#/login';
-//   }
-//   return Promise.reject(error.response);
-// });
 
 export default api;

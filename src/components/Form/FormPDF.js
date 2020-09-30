@@ -2,16 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import { Button } from "reactstrap";
-import { useHistory } from "react-router-dom";
 
 export default function FormPDF() {
-	let history = useHistory();
 	const submittedForm = useSelector((state) => state.formManagement.form);
-	const backHomePage = () => {
-		history.push("/");
-	};
-	// const url =
-	// 	"http://localhost:8080/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
+
 	const url =
 		"https://voteappbackend.herokuapp.com/uploads/StateNominationPaperPoliticalBodyDSBE-PB2020.pdf";
 	const modifyPdf = async () => {
@@ -80,7 +74,6 @@ export default function FormPDF() {
 		<div className="App">
 			<h1>After submit the form Click the button below to get the form</h1>
 			<Button onClick={() => modifyPdf()}>Download</Button>
-			{/* <Button onClick={backHomePage}>Back to Home page</Button> */}
 		</div>
 	);
 }

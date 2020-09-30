@@ -1,4 +1,3 @@
-import axios from "../config/axiosConfig";
 const GET_ADDRESS = "GET_ADDRESS";
 const SET_OFFICES = "SET_OFFICES";
 
@@ -17,10 +16,6 @@ export const getOffices = (offices) => (dispatch) => {
 };
 
 export const findOffices = (params) => async (dispatch) => {
-	// const result = await axios.get(
-	// 	` https://www.googleapis.com/civicinfo/v2/elections?key=AIzaSyBz6nwfaz00TcGhrBTs69sZdNgd0JPVP3g`
-	// );
-
 	const response = await fetch(
 		`https://www.googleapis.com/civicinfo/v2/representatives?address=${params.address}&key=AIzaSyBz6nwfaz00TcGhrBTs69sZdNgd0JPVP3g`,
 		{
@@ -45,7 +40,7 @@ export default function reducer(state = initialState, action) {
 			};
 		}
 		case SET_OFFICES: {
-			console.log('action.offices', action.offices)
+			console.log("action.offices", action.offices);
 			return {
 				...state,
 				offices: action.offices,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import { checkout } from "../../reducers/payment";
@@ -28,7 +28,7 @@ export default function RunforModal(props) {
 	const [showPaypal, setShowPaypal] = useState(false);
 	const [isParty, setIsParty] = useState(null);
 	const [isError, setIsError] = useState(false);
-	const { isOpen, toggle, offices, showFormToFill } = props;
+	const { isOpen, toggle } = props;
 
 	const showPaypalButtons = () => {
 		if (!isAuthenticated) {

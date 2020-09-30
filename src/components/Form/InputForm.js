@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { useAuth0 } from "@auth0/auth0-react";
+import { Row, Col, Button, Input } from "reactstrap";
+
 import { addForm } from "../../reducers/formManagement";
 import { useHistory } from "react-router-dom";
 import Select from "react-select";
-import "./Form.css";
 
 function InputFormScreen(props) {
 	const history = useHistory();
@@ -13,7 +12,6 @@ function InputFormScreen(props) {
 	const userAddress = useSelector((state) => state.address.userAddress);
 	const offices = useSelector((state) => state.address.offices);
 	const userId = useSelector((state) => state.authentication.user.id);
-	const submittedForm = useSelector((state) => state.formManagement.form);
 
 	const [officeSelected, setOfficeSelected] = useState();
 
@@ -41,13 +39,12 @@ function InputFormScreen(props) {
 	};
 
 	const handleChange = (value) => {
-		// value => { id: 1, label: 'newyork', value: 'newyork' }
 		setOfficeSelected(value);
 	};
 
 	const onChangeInput = (e) => {
 		e.persist();
-		const { name, value } = e.target;
+		const { name } = e.target;
 		setForm((prev) => ({ ...prev, [name]: e.target.value }));
 	};
 
