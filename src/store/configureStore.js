@@ -1,8 +1,7 @@
 import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import thunk from "redux-thunk";
 import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // or whatever storage you are using
-
+import storage from "redux-persist/lib/storage";
 import authentication from "../reducers/authentication";
 import formManagement from "../reducers/formManagement";
 import address from "../reducers/address";
@@ -11,14 +10,6 @@ import payment from "../reducers/payment";
 const persistConfig = {
 	key: "root",
 	storage,
-	// perist
-	// whitelist: [
-	// 	// 'accountReducer'
-	// ],
-	// // not persist
-	// blacklist: [
-	// 	// "address"
-	// ],
 };
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
