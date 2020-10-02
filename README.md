@@ -29,3 +29,7 @@ Vote App will allow users to:
 
 - [ ] Account: demoLaModePaypal@gmail.com
 - [ ] Password: demolamodepaypal
+
+### Documentation:
+
+- [Database](https://github.com/Maivw/VoteApp-Server)
