@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Button, Input } from "reactstrap";
-
 import { addForm } from "../../reducers/formManagement";
 import { useHistory } from "react-router-dom";
 import Select from "react-select";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function InputFormScreen(props) {
 	const history = useHistory();
@@ -12,7 +13,7 @@ function InputFormScreen(props) {
 	const userAddress = useSelector((state) => state.address.userAddress);
 	const offices = useSelector((state) => state.address.offices);
 	const userId = useSelector((state) => state.authentication.user.id);
-
+	const isPaid = useSelector((state) => state.authentication.user.alreadyPaid);
 	const [officeSelected, setOfficeSelected] = useState();
 
 	const officeTitleOps = useMemo(
@@ -29,13 +30,18 @@ function InputFormScreen(props) {
 		occupation: "",
 	});
 
+	const notify = () => toast("You have to pay first.");
 	const onCreateForm = (type) => (e) => {
 		e.preventDefault();
-		dispatch(addForm({ ...form, officeTitle: officeSelected?.value || "" }));
-		props.onGetData(
-			{ ...form, officeTitle: officeSelected?.value || "" },
-			type
-		);
+		if (isPaid) {
+			dispatch(addForm({ ...form, officeTitle: officeSelected?.value || "" }));
+			props.onGetData(
+				{ ...form, officeTitle: officeSelected?.value || "" },
+				type
+			);
+		} else {
+			notify();
+		}
 	};
 
 	const handleChange = (value) => {
@@ -101,6 +107,7 @@ function InputFormScreen(props) {
 							</Button>
 						</Col>
 						<Col className="justify-content-end d-flex">
+							<ToastContainer />
 							<Button color="warning" onClick={onCreateForm("download")}>
 								Download
 							</Button>

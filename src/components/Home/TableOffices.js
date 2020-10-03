@@ -9,13 +9,12 @@ function TableOffices() {
 	return (
 		<div className="table__offices">
 			{offices.length > 0 && (
-				<Table hover className="table__offices">
+				<Table responsive hover className="table__offices">
 					<thead>
 						<tr>
 							<th>#</th>
 							<th>Offfice Title</th>
 							<th>Role</th>
-							<th>Level</th>
 						</tr>
 					</thead>
 					{offices?.map((office, index) => (
@@ -26,11 +25,6 @@ function TableOffices() {
 								<td>
 									{office.roles?.map((role) => (
 										<li>{role}</li>
-									))}
-								</td>
-								<td>
-									{office.levels?.map((level) => (
-										<li>{level}</li>
 									))}
 								</td>
 							</tr>

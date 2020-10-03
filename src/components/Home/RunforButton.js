@@ -8,6 +8,7 @@ import { FormGroup, Label, Input } from "reactstrap";
 import Payment from "../Payment/Payment";
 import PdfPreview from "../Form/PdfPreview";
 import { parties, PartiesConst } from "../../utils";
+import "./RunforButton.css";
 
 const stateForm = [
 	{ id: PartiesConst.LIBERTARIAN, name: PartiesConst.LIBERTARIAN },
@@ -67,12 +68,13 @@ export default function RunforModal(props) {
 	};
 
 	return (
-		<div>
+		<div className="preview__box">
 			<Modal
 				style={{
 					maxWidth: "700px",
 					width: "70%",
 					maxHeight: "calc(100vh - 200px)",
+					alignSelf: "center",
 				}}
 				isOpen={isOpen}
 				toggle={toggle}
@@ -114,7 +116,7 @@ export default function RunforModal(props) {
 					</FormGroup>
 				</ModalBody>
 				<ModalFooter>
-					<Button color="primary" onClick={showPaypalButtons}>
+					<Button color="warning" onClick={showPaypalButtons}>
 						Pay to get the form
 					</Button>
 					<Button color="secondary" onClick={toggle}>
