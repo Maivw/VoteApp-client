@@ -91,11 +91,11 @@ export default function RunforModal(props) {
 							/>
 						)}
 					</div>
-					<FormGroup tag="party" style={{ color: "#666464", marginTop: 10 }}>
+					<FormGroup tag="fieldset" style={{ color: "#666464", marginTop: 10 }}>
 						<legend>Which party will you run for office under?</legend>
-						{stateForm.map((e) => {
+						{stateForm.map((e, i) => {
 							return (
-								<FormGroup check>
+								<FormGroup check key={i}>
 									<Label check>
 										<Input
 											type="radio"
@@ -103,7 +103,7 @@ export default function RunforModal(props) {
 											id={e.id}
 											value={e.name}
 											checked={isParty === e.name}
-											onClick={onChangeSelect}
+											onChange={onChangeSelect}
 										/>
 										{e.name}
 									</Label>

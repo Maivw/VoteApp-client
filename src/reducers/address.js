@@ -40,7 +40,6 @@ export default function reducer(state = initialState, action) {
 			};
 		}
 		case SET_OFFICES: {
-			console.log("action.offices", action.offices);
 			return {
 				...state,
 				offices: action.offices,

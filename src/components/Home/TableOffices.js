@@ -23,8 +23,8 @@ function TableOffices() {
 								<th scope="row">{index + 1}</th>
 								<td>{office.name}</td>
 								<td>
-									{office.roles?.map((role) => (
-										<li>{role}</li>
+									{office.roles?.map((role, i) => (
+										<li key={i}>{role}</li>
 									))}
 								</td>
 							</tr>
