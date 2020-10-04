@@ -1,0 +1,15 @@
+@media only screen and (max-width: 500px) {
+	.container {
+		width: 80%;
+		margin-bottom: 20px;
+		font-size: 12px;
+	}
+	.mb-3,
+	.btn-warning {
+		font-size: 12px;
+	}
+
+	h4 {
+		font-size: 16px;
+	}
+}

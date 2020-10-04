@@ -56,3 +56,15 @@ body {
 	text-align: center;
 	box-sizing: border-box;
 }
+@media only screen and (max-width: 500px) {
+	.footer__text {
+		font-size: 10px;
+	}
+	.footer__image {
+		margin-left: 50%;
+		margin-top: 10%;
+	}
+	h3 {
+		font-size: 1.2rem;
+	}
+}

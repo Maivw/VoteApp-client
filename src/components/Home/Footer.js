@@ -4,7 +4,7 @@ import "./Home.css";
 
 function Footer() {
 	return (
-		<div className="mb-5 p-5" style={{ marginTop: "15%" }}>
+		<div className="footer">
 			<Container>
 				<Row>
 					<Col xs="4" sm="4" md="4" lg="4">
