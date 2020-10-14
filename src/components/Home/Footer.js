@@ -10,8 +10,9 @@ function Footer() {
 					<Col xs="4" sm="4" md="4" lg="4">
 						<p className="footer__text">
 							This is a tool that looks up which offices you can run for based
-							on your address. This tool will also help automatically fill out
-							the paperwork that is required for running for that office.
+							on your address in Pennsylvania. This tool will also help
+							automatically fill out the paperwork that is required for running
+							for that office.
 						</p>
 					</Col>
 					<Col xs="8" sm="8" md="8" lg="8">
